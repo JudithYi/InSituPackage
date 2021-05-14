@@ -994,9 +994,9 @@ C     Passive scalar term
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             S(IX,IY,IZ) = PA
- 1010    CONTINUE
- 1011    CONTINUE
  1012    CONTINUE
+ 1011    CONTINUE
+ 1010    CONTINUE
          RETURN
 
       ELSEIF (CB.EQ.'ms ' .OR. CB.EQ.'msi') THEN
