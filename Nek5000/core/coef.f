@@ -37,8 +37,9 @@ C
       ZGM1(lz1,3) = 0.
       WZM1(lz1)   = 1.
       DO 100 IY=1,ly1
-      DO 100 IX=1,lx1
+      DO 101 IX=1,lx1
       W3M1(IX,IY,1)=WXM1(IX)*WYM1(IY)
+  101 CONTINUE
   100 CONTINUE
 C
 C     Compute derivative matrices
@@ -61,8 +62,9 @@ C
       ZGM2(lz2,3) = 0.
       WZM2(lz2)   = 1.
       DO 200 IY=1,ly2
-      DO 200 IX=1,lx2
+      DO 201 IX=1,lx2
       W3M2(IX,IY,1)=WXM2(IX)*WYM2(IY)
+  201 CONTINUE
   200 CONTINUE
 C
 C     Gauss-Lobatto Legendre mesh (suffix M3).
@@ -73,8 +75,9 @@ C
       ZGM3(lz3,3) = 0.
       WZM3(lz3)   = 1.
       DO 300 IY=1,ly3
-      DO 300 IX=1,lx3
+      DO 301 IX=1,lx3
       W3M3(IX,IY,1)=WXM3(IX)*WYM3(IY)
+  301 CONTINUE
   300 CONTINUE
 C
 C     Compute derivative matrices
@@ -147,9 +150,10 @@ C
       BETA  = 1.
       CALL ZWGLJ (ZAM1,WAM1,ly1,ALPHA,BETA)
       DO 400 IY=1,ly1
-      DO 400 IX=1,lx1
+      DO 401 IX=1,lx1
          W2AM1(IX,IY)=WXM1(IX)*WAM1(IY)
          W2CM1(IX,IY)=WXM1(IX)*WYM1(IY)
+  401 CONTINUE
   400 CONTINUE
 C
 C     Compute derivative matrices
@@ -167,9 +171,10 @@ C
          CALL ZWGJ  (ZAM2,WAM2,ly2,ALPHA,BETA)
       ENDIF
       DO 500 IY=1,ly2
-      DO 500 IX=1,lx2
+      DO 501 IX=1,lx2
          W2CM2(IX,IY)=WXM2(IX)*WYM2(IY)
          W2AM2(IX,IY)=WXM2(IX)*WAM2(IY)
+  501 CONTINUE
   500 CONTINUE
 C
 C     Gauss-Lobatto Jacobi mesh (suffix M3).
@@ -177,9 +182,10 @@ C     Generate collocation points and weights.
 C
       CALL ZWGLJ (ZAM3,WAM3,ly3,ALPHA,BETA)
       DO 600 IY=1,ly3
-      DO 600 IX=1,lx3
+      DO 601 IX=1,lx3
          W2CM3(IX,IY)=WXM3(IX)*WYM3(IY)
          W2AM3(IX,IY)=WXM3(IX)*WAM3(IY)
+  601 CONTINUE
   600 CONTINUE
 C
 C     Compute derivative matrices
@@ -261,9 +267,11 @@ C
       CALL ZWGLL (ZGM1(1,2),WYM1,ly1)
       CALL ZWGLL (ZGM1(1,3),WZM1,lz1)
       DO 700 IZ=1,lz1
-      DO 700 IY=1,ly1
-      DO 700 IX=1,lx1
+      DO 701 IY=1,ly1
+      DO 702 IX=1,lx1
       W3M1(IX,IY,IZ)=WXM1(IX)*WYM1(IY)*WZM1(IZ)
+  702 CONTINUE
+  701 CONTINUE
   700 CONTINUE
 C
 C     Compute derivative matrices
@@ -285,9 +293,11 @@ C
          CALL ZWGL  (ZGM2(1,3),WZM2,lz2)
       ENDIF
       DO 800 IZ=1,lz2
-      DO 800 IY=1,ly2
-      DO 800 IX=1,lx2
+      DO 801 IY=1,ly2
+      DO 802 IX=1,lx2
       W3M2(IX,IY,IZ)=WXM2(IX)*WYM2(IY)*WZM2(IZ)
+  802 CONTINUE
+  801 CONTINUE
   800 CONTINUE
 C
 C     Gauss-Loabtto Legendre mesh (suffix M3).
@@ -297,9 +307,11 @@ C
       CALL ZWGLL (ZGM3(1,2),WYM3,ly3)
       CALL ZWGLL (ZGM3(1,3),WZM3,lz3)
       DO 900 IZ=1,lz3
-      DO 900 IY=1,ly3
-      DO 900 IX=1,lx3
+      DO 901 IY=1,ly3
+      DO 902 IX=1,lx3
       W3M3(IX,IY,IZ)=WXM3(IX)*WYM3(IY)*WZM3(IZ)
+  902 CONTINUE
+  901 CONTINUE
   900 CONTINUE
 C
 C     Compute derivative matrices
@@ -707,13 +719,14 @@ C
          DO 500 IEL=1,NELT
            IF (IFRZER(IEL)) THEN
               DO 510 J=1,ly1
-              DO 510 I=1,lx1
+              DO 511 I=1,lx1
                 IF (J.GT.1) THEN
                    WJ(I,J,1,IEL) = YM1(I,J,1,IEL)/
      $                            (JACM1(I,J,1,IEL)*(1.+ZAM1(J)))
                 ELSE
                    WJ(I,J,1,IEL) = YSM1(I,J,1,IEL)/JACM1(I,J,1,IEL)
                 ENDIF
+ 511          CONTINUE
  510          CONTINUE
            ELSE
               CALL INVCOL3 (WJ(1,1,1,IEL),YM1(1,1,1,IEL),
@@ -896,9 +909,10 @@ C
 C
          IF (IFAXIS.AND.IFRZER(IEL)) THEN
             DO 300 J=1,ly2
-            DO 300 I=1,lx2
+            DO 301 I=1,lx2
                BM2(I,J,1,IEL) = BM2(I,J,1,IEL)*YM2(I,J,1,IEL)
      $                                        /(1.+ZAM2(J))
+ 301        CONTINUE
  300        CONTINUE
          ELSEIF (IFAXIS.AND.(.NOT.IFRZER(IEL))) THEN
             CALL COL2 (BM2(1,1,1,IEL),YM2(1,1,1,IEL),NXYZ2)
@@ -1088,7 +1102,7 @@ C
 C     "R"
 C
       DO 100 IEL=1,NELT
-      DO 100 IY=1,ly1
+      DO 101 IY=1,ly1
          XS2  = XSM1(lx1,IY,1,IEL)
          YS2  = YSM1(lx1,IY,1,IEL)
          XS4  = XSM1(  1,IY,1,IEL)
@@ -1105,12 +1119,13 @@ C
          UNY (IY,1,4,IEL) = -T1X(IY,1,4,IEL)
          AREA(IY,1,2,IEL) =  SS2 * WGTR2(IY,IEL)
          AREA(IY,1,4,IEL) =  SS4 * WGTR4(IY,IEL)
+  101 CONTINUE
   100 CONTINUE
 C
 C     "S"
 C
       DO 200 IEL=1,NELT
-      DO 200 IX=1,lx1
+      DO 201 IX=1,lx1
          XR1  = XRM1(IX,  1,1,IEL)
          YR1  = YRM1(IX,  1,1,IEL)
          XR3  = XRM1(IX,ly1,1,IEL)
@@ -1127,6 +1142,7 @@ C
          UNY (IX,1,3,IEL) = -T1X(IX,1,3,IEL)
          AREA(IX,1,1,IEL) =  RR1 * WGTR1(IX,IEL)
          AREA(IX,1,3,IEL) =  RR3 * WGTR3(IX,IEL)
+  201 CONTINUE
   200 CONTINUE
 C
       RETURN
@@ -1222,8 +1238,8 @@ C
       CALL VDOT3 (DOT,A,B,C,A,B,C,NTOT)
 C
       DO 100 IEL=1,NELT
-      DO 100 IZ=1,lz1
-      DO 100 IY=1,ly1
+      DO 101 IZ=1,lz1
+      DO 102 IY=1,ly1
          WEIGHT = WYM1(IY)*WZM1(IZ)
          AREA(IY,IZ,2,IEL) = SQRT(DOT(lx1,IY,IZ,IEL))*WEIGHT
          AREA(IY,IZ,4,IEL) = SQRT(DOT(  1,IY,IZ,IEL))*WEIGHT
@@ -1233,6 +1249,8 @@ C
          UNY (IY,IZ,2,IEL) =  B(lx1,IY,IZ,IEL)
          UNZ (IY,IZ,4,IEL) = -C(  1,IY,IZ,IEL)
          UNZ (IY,IZ,2,IEL) =  C(lx1,IY,IZ,IEL)
+  102 CONTINUE
+  101 CONTINUE
   100 CONTINUE
 C
 C        "S"
@@ -1240,8 +1258,8 @@ C
       CALL VCROSS(A,B,C,XRM1,YRM1,ZRM1,XTM1,YTM1,ZTM1,NTOT)
       CALL VDOT3 (DOT,A,B,C,A,B,C,NTOT)
       DO 200 IEL=1,NELT
-      DO 200 IZ=1,lz1
-      DO 200 IX=1,lx1
+      DO 201 IZ=1,lz1
+      DO 202 IX=1,lx1
          WEIGHT=WXM1(IX)*WZM1(IZ)
          AREA(IX,IZ,1,IEL) = SQRT(DOT(IX,  1,IZ,IEL))*WEIGHT
          AREA(IX,IZ,3,IEL) = SQRT(DOT(IX,ly1,IZ,IEL))*WEIGHT
@@ -1251,6 +1269,8 @@ C
          UNY (IX,IZ,3,IEL) = -B(IX,ly1,IZ,IEL)
          UNZ (IX,IZ,1,IEL) =  C(IX,  1,IZ,IEL)
          UNZ (IX,IZ,3,IEL) = -C(IX,ly1,IZ,IEL)
+  202 CONTINUE
+  201 CONTINUE
   200 CONTINUE
 C
 C        "T"
@@ -1258,8 +1278,8 @@ C
       CALL VCROSS(A,B,C,XRM1,YRM1,ZRM1,XSM1,YSM1,ZSM1,NTOT)
       CALL VDOT3 (DOT,A,B,C,A,B,C,NTOT)
       DO 300 IEL=1,NELT
-      DO 300 IX=1,lx1
-      DO 300 IY=1,ly1
+      DO 301 IX=1,lx1
+      DO 302 IY=1,ly1
          WEIGHT=WXM1(IX)*WYM1(IY)
          AREA(IX,IY,5,IEL) = SQRT(DOT(IX,IY,  1,IEL))*WEIGHT
          AREA(IX,IY,6,IEL) = SQRT(DOT(IX,IY,lz1,IEL))*WEIGHT
@@ -1269,6 +1289,8 @@ C
          UNY (IX,IY,6,IEL) =  B(IX,IY,lz1,IEL)
          UNZ (IX,IY,5,IEL) = -C(IX,IY,  1,IEL)
          UNZ (IX,IY,6,IEL) =  C(IX,IY,lz1,IEL)
+  302 CONTINUE
+  301 CONTINUE
   300 CONTINUE
 C
       CALL UNITVEC (UNX,UNY,UNZ,NSRF)
@@ -1276,7 +1298,7 @@ C
 C     COMPUTE UNIT TANGENT T1
 C
       DO 600 IEL=1,NELT
-      DO 600 IFC=1,NFACE
+      DO 601 IFC=1,NFACE
       IF (IFC.EQ.1 .OR. IFC.EQ.6) THEN
          CALL FACEXV (T1X(1,1,IFC,IEL),T1Y(1,1,IFC,IEL),
      $                T1Z(1,1,IFC,IEL),
@@ -1293,6 +1315,7 @@ C
      $                XTM1(1,1,1,IEL),YTM1(1,1,1,IEL),
      $                ZTM1(1,1,1,IEL),IFC,0)
       ENDIF
+  601 CONTINUE
   600 CONTINUE
 C
       CALL UNITVEC (T1X,T1Y,T1Z,NSRF)
@@ -1300,13 +1323,14 @@ C
 C     COMPUTE UNIT TANGENT T2  ( T2 = Normal X T1 )
 C
       DO 700 IEL=1,NELT
-      DO 700 IFC=1,NFACE
+      DO 701 IFC=1,NFACE
          CALL VCROSS (T2X(1,1,IFC,IEL),T2Y(1,1,IFC,IEL),
      $                T2Z(1,1,IFC,IEL),
      $                UNX(1,1,IFC,IEL),UNY(1,1,IFC,IEL),
      $                UNZ(1,1,IFC,IEL),
      $                T1X(1,1,IFC,IEL),T1Y(1,1,IFC,IEL),
      $                T1Z(1,1,IFC,IEL),NXY1)
+  701 CONTINUE
   700 CONTINUE
 C
       RETURN

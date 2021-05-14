@@ -5,7 +5,7 @@
 
 ## Local
 # source path
-SOURCE_ROOT="$HOME/InSituPackage/Nek5000/"
+SOURCE_ROOT="/home/yi/Documents/MPCDF/nek/Yi/InSituPackage/Nek5000"
 # Fortran / C compiler
 FC="mpif77"
 CC="mpicc"
@@ -29,7 +29,7 @@ PPLIST="MPIIO"
 
 # optional compiler flags
 FFLAGS="-I./inc_src -g"
-CFLAGS="-I./inc_src -I$PARAVIEW/include/paraview-5.6"
+CFLAGS="-I./inc_src -I$PARAVIEW/include/paraview-5.8"
 
 
 # optional linking flags
@@ -58,7 +58,7 @@ USR="IO_tools.o chkpoint.o uparam.o rt_filter.o tripf.o misc.o"
 
 CATALYST=1
 CATALYST_LIBS=`paraview-config --libs vtkPVPythonCatalyst`
-CATALYST_INCS=`paraview-config --include vtkPVPythonCatalyst`
+CATALYST_INCS=-I/home/yi/paraview_5.8/paraview_build/
 
 ###############################################################################
 # DONT'T TOUCH WHAT FOLLOWS !!!

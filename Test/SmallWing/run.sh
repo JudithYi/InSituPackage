@@ -1,6 +1,15 @@
 
 
-export PARAVIEW=/home/marco/InSituPackage/local
+export OSMESA=/home/yi/software
+
+export LIBDIR=$OSMESA/lib:$LIBDIR
+export LD_LIBRARY_PATH=$OSMESA/lib:$LD_LIBRARY_PATH
+export LD_RUN_PATH=$OSMESA/lib:$LD_RUN_PATH
+
+export OSMESA_INCLUDE_DIR=$OSMESA/include
+export OSMESA_LIBRARY=$OSMESA/lib
+
+export PARAVIEW=/home/yi/paraview_5.8/paraview_nek
 export PATH=$PARAVIEW/bin:$PATH
 export LD_LIBRARY_PATH=$PARAVIEW/lib:$LD_LIBRARY_PATH
 
