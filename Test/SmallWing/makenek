@@ -29,7 +29,7 @@ PPLIST="MPIIO"
 
 # optional compiler flags
 FFLAGS="-I./inc_src -g"
-CFLAGS="-I./inc_src -I$PARAVIEW/include/paraview-5.8"
+CFLAGS="-I./inc_src -I$PARAVIEW/include/paraview-5.9"
 
 
 # optional linking flags
@@ -57,8 +57,8 @@ USR="IO_tools.o chkpoint.o uparam.o rt_filter.o tripf.o misc.o"
 #VISIT_STOP=true
 
 CATALYST=1
-CATALYST_LIBS=`paraview-config --libs vtkPVPythonCatalyst`
-CATALYST_INCS=-I/home/yi/paraview_5.8/paraview_build/
+CATALYST_LIBS=`paraview-config -c PythonCatalyst -l`
+CATALYST_INCS=`paraview-config -c PythonCatalyst -f`
 
 ###############################################################################
 # DONT'T TOUCH WHAT FOLLOWS !!!
