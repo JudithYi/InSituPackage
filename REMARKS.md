@@ -6,11 +6,11 @@ Also works with ParaView 5.9.1:
 
 https://github.com/Kitware/ParaView/tree/v5.9.1
 
-0) dependencies:
+0) dependencies:\\
     a)
 ```
     sudo apt-get install git cmake build-essential libgl1-mesa-dev libxt-dev qt5-default libqt5x11extras5-dev libqt5help5 qttools5-dev qtxmlpatterns5-dev-tools libqt5svg5-dev python3-dev python3-numpy libopenmpi-dev libtbb-dev ninja-build
-```
+```\\
 
     b) Qt 5.12 or newer is required if PARAVIEW_USE_QT=ON. Qt5.12.10 can be downloaded from:
     https://download.qt.io/official_releases/qt/5.12/5.12.10/qt-opensource-linux-x64-5.12.10.run
