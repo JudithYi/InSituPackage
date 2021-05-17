@@ -26,4 +26,4 @@ echo 'small_wing' >> SESSION.NAME
 pwd >> SESSION.NAME
 
 
-#mpirun -n 16 ./nek5000
+mpirun -n 4 ./nek5000
