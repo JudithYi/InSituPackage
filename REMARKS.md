@@ -7,22 +7,26 @@ Also works with ParaView 5.9.1:
 https://github.com/Kitware/ParaView/tree/v5.9.1
 
 0) dependencies:
+    a)
 ```
     sudo apt-get install git cmake build-essential libgl1-mesa-dev libxt-dev qt5-default libqt5x11extras5-dev libqt5help5 qttools5-dev qtxmlpatterns5-dev-tools libqt5svg5-dev python3-dev python3-numpy libopenmpi-dev libtbb-dev ninja-build
 ```
-    Qt 5.12 or newer is required if PARAVIEW_USE_QT=ON. Qt5.12.10 can be downloaded from:
+
+    b) Qt 5.12 or newer is required if PARAVIEW_USE_QT=ON. Qt5.12.10 can be downloaded from:
     https://download.qt.io/official_releases/qt/5.12/5.12.10/qt-opensource-linux-x64-5.12.10.run
 
-    CMake 3.12 or newer is recommended
+    c) CMake 3.12 or newer is recommended
 
-    [Adios2](https://github.com/ornladios/ADIOS2) is recommended:
+    d) [Adios2](https://github.com/ornladios/ADIOS2) is recommended:
+
 ```
     git clone https://github.com/ornladios/ADIOS2.git
     mkdir adios2-build && cd adios2-build
     ccmake ../ADIOS2
 ```
-
+ 
     Recommended CMake Options:
+
 ```
     ADIOS2_USE_MPI=ON
     ADIOS2_USE_Fortran=ON
@@ -30,12 +34,14 @@ https://github.com/Kitware/ParaView/tree/v5.9.1
 ```
 
     Then compile and install with:
+
 ```
     make
     make install
 ```
 
 1) build ParaView 5.9.1 from source code:
+
 
 ```
     git clone https://github.com/Kitware/ParaView.git
@@ -57,6 +63,7 @@ https://github.com/Kitware/ParaView/tree/v5.9.1
 ```
 
 2) Recommended CMake Options:
+
 ```
     CMAKE_BUILD_TYPE=Release
     CMAKE_INSTALL_PREFIX=/path/to/install
@@ -71,6 +78,7 @@ https://github.com/Kitware/ParaView/tree/v5.9.1
 ```
 
     Then compile and install with:
+
 ```
     make
     make install
