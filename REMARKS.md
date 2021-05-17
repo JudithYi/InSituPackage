@@ -1,5 +1,5 @@
-### 3. 0 gcc 9.0 or older version
-    gcc 10.0 will bring errors due to stricter rules for type convertion.
+### 3.0 gcc 9.0 or older version
+gcc 10.0 will bring errors due to stricter rules for type convertion.
 
 ### 3.3 ParaView Linux Ubuntu 18.04:
 Also works with ParaView 5.9.1:
