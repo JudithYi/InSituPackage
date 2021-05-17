@@ -42,7 +42,7 @@ C
          IERR = 0
          IFIELD = 1
          DO 100 IEL=1,NELV
-         DO 101 IFC=1,NFACE
+         DO 100 IFC=1,NFACE
             CB = CBC(IFC,IEL,IFIELD)
             CALL CHKNORD (IFALGN,IFNORX,IFNORY,IFNORZ,IFC,IEL)
             CALL CHKCBC  (CB,IEL,IFC,IFALGN,IERR)
@@ -70,7 +70,6 @@ C
      $           CB.EQ.'MSI' .OR. CB.EQ.'msi' ) THEN
                                               IFSURT          = .TRUE.
             ENDIF
-  101    CONTINUE
   100    CONTINUE
 
          ierr = iglsum(ierr,1)
@@ -80,14 +79,12 @@ C
       IF (IFHEAT) THEN
 C
          DO 250 IFIELD=2,NFIELD
-         DO 251 IEL=1,NELFLD(IFIELD)
-         DO 252 IFC=1,NFACE
+         DO 250 IEL=1,NELFLD(IFIELD)
+         DO 250 IFC=1,NFACE
             CB=CBC(IFC,IEL,IFIELD)
             IF  (CB.EQ.'r  ' .OR. CB.EQ.'R  ') THEN
                                               IFNONL(IFIELD)  = .TRUE.
             ENDIF
-  252    CONTINUE
-  251    CONTINUE
   250    CONTINUE
 C
       ENDIF
@@ -239,11 +236,10 @@ C
 C
          NCPF = lx1*lx1
          DO 200 IX=1,lx1
-         DO 201 IY=1,ly1
+         DO 200 IY=1,ly1
             SUMX = SUMX + ABS( ABS(UNX(IX,IY,IFC,IEL)) - 1.0 )
             SUMY = SUMY + ABS( ABS(UNY(IX,IY,IFC,IEL)) - 1.0 )
             SUMZ = SUMZ + ABS( ABS(UNZ(IX,IY,IFC,IEL)) - 1.0 )
-  201    CONTINUE
   200    CONTINUE
          SUMX = SUMX / NCPF
          SUMY = SUMY / NCPF
@@ -276,10 +272,9 @@ C
       NFACE = 2*ldim
 C
       DO 100 IEL=1,NELV
-      DO 101 IFC=1,NFACE
+      DO 100 IFC=1,NFACE
          CB = CBC(IFC,IEL,IFLD)
          IF  (CB.EQ.'A  ' .AND. IFC.NE.1)  GOTO 9000
-  101 CONTINUE
   100 CONTINUE
 C
       RETURN
@@ -381,7 +376,7 @@ C        Pressure mask
 C
          call rone(pmask,ntot)
          do 50 iel=1,nelt
-         do 51 iface=1,nfaces
+         do 50 iface=1,nfaces
             cb=cbc(iface,iel,ifield)
             if ((cb.eq.'o  ' .and. IFSPLIT) .or.
      $          (cb.eq.'on ' .and. IFSPLIT)) then
@@ -392,7 +387,6 @@ C
             if (cb.eq.'O  ' .or. cb.eq.'ON ' .or.
      $          cb.eq.'o  ' .or. cb.eq.'on ')
      $         call facev(pmask,iel,iface,0.0,lx1,ly1,lz1)
-   51    continue
    50    continue
          if (nelt.gt.nelv) then
             nn=lx1*ly1*lz1*(nelt-nelv)
@@ -417,7 +411,7 @@ C
            CALL RONE( OMASK,NTOT)
 C
            DO 100 IEL=1,NELV
-           DO 101 IFACE=1,NFACES
+           DO 100 IFACE=1,NFACES
               CB =CBC(IFACE,IEL,IFIELD)
               CALL CHKNORD (IFALGN,IFNORX,IFNORY,IFNORZ,IFACE,IEL)
 C
@@ -457,7 +451,6 @@ C
              CALL FACEV (V2MASK,IEL,IFACE,0.0,lx1,ly1,lz1)
              CALL FACEV ( OMASK,IEL,IFACE,0.0,lx1,ly1,lz1)
          ENDIF
-  101    CONTINUE
   100    CONTINUE
 
          CALL DSOP  ( OMASK,'MUL',lx1,ly1,lz1)
@@ -478,7 +471,7 @@ C
             NTOT   = NXYZ*NEL
             CALL RONE (TMASK(1,1,1,1,IPSCAL),NTOT)
          DO 1100 IEL=1,NEL
-         DO 1101 IFACE=1,NFACES
+         DO 1100 IFACE=1,NFACES
             CB =CBC(IFACE,IEL,IFIELD)
 C
 C           Assign mask values.
@@ -491,7 +484,6 @@ C
      $           CB.EQ.'KW ' .OR. CB.EQ.'KWS' .OR. CB.EQ.'EWS')
      $           CALL FACEV (TMASK(1,1,1,1,IPSCAL),
      $                       IEL,IFACE,0.0,lx1,ly1,lz1)
- 1101       CONTINUE
  1100       CONTINUE
          CALL DSOP (TMASK(1,1,1,1,IPSCAL),'MUL',lx1,ly1,lz1)
  1200    CONTINUE
@@ -650,7 +642,7 @@ C
 c     write(6,*) 'BCDIRV: ifield',ifield
       DO 2100 ISWEEP=1,2
          DO 2000 IE=1,NEL
-         DO 2001 IFACE=1,NFACES
+         DO 2000 IFACE=1,NFACES
             CB  = CBC(IFACE,IE,IFIELD)
             BC1 = BC(1,IFACE,IE,IFIELD)
             BC2 = BC(2,IFACE,IE,IFIELD)
@@ -685,16 +677,14 @@ c     write(6,*) 'BCDIRV: ifield',ifield
      $                       TMP3(1,1,1,IE),IE,IFACE,lx1,ly1,lz1)
             ENDIF
 
- 2001    CONTINUE
  2000    CONTINUE
          DO 2010 IE=1,NEL
-         DO 2011 IFACE=1,NFACES
+         DO 2010 IFACE=1,NFACES
             IF (CBC(IFACE,IE,IFIELD).EQ.'W  ') THEN
                CALL FACEV (TMP1,IE,IFACE,0.0,lx1,ly1,lz1)
                CALL FACEV (TMP2,IE,IFACE,0.0,lx1,ly1,lz1)
                IF (IF3D) CALL FACEV (TMP3,IE,IFACE,0.0,lx1,ly1,lz1)
             ENDIF
- 2011    CONTINUE
  2010    CONTINUE
 C
 C        Take care of Neumann-Dirichlet shared edges...
@@ -772,7 +762,7 @@ C
       DO 2100 ISWEEP=1,2
 C
          DO 2010 IE=1,NEL
-         DO 2011 IFACE=1,NFACES
+         DO 2010 IFACE=1,NFACES
             CB=CBC(IFACE,IE,IFIELD)
             BC1=BC(1,IFACE,IE,IFIELD)
             BC2=BC(2,IFACE,IE,IFIELD)
@@ -788,7 +778,6 @@ C
             IF (CB.EQ.'t  ' .OR. CB.EQ.'kd ' .or.
      $          CB.EQ.'ed ' .or. cb.eq.'o  ' .or. cb.eq.'on ') 
      $          CALL FACEIS (CB,TMP(1,1,1,IE),IE,IFACE,lx1,ly1,lz1)
- 2011    CONTINUE
  2010    CONTINUE
 C
 C        Take care of Neumann-Dirichlet shared edges...
@@ -848,7 +837,7 @@ C
 C        Compute diagonal contributions to accomodate Robin boundary conditions
 C
          DO 1000 IE=1,NEL
-         DO 1001 IFACE=1,NFACES
+         DO 1000 IFACE=1,NFACES
             ieg=lglel(ie)
             CB =CBC(IFACE,IE,IFIELD)
             IF (CB.EQ.'C  ' .OR. CB.EQ.'c  ' .OR.
@@ -865,8 +854,8 @@ C IA is areal counter, assumes advancing fastest index first. (IX...IY...IZ)
 C
                CALL FACIND (KX1,KX2,KY1,KY2,KZ1,KZ2,lx1,ly1,lz1,IFACE)
                DO 100 IZ=KZ1,KZ2
-               DO 101 IY=KY1,KY2
-               DO 102 IX=KX1,KX2
+               DO 100 IY=KY1,KY2
+               DO 100 IX=KX1,KX2
                   IA = IA + 1
                   TS = T(IX,IY,IZ,IE,IFIELD-1)
                   IF (CB.EQ.'c  ' .OR. CB.EQ.'r  ') THEN
@@ -877,11 +866,8 @@ C
      $               HC = HRAD * (TINF**2 + TS**2) * (TINF + TS)
                   S(IX,IY,IZ,IE) = S(IX,IY,IZ,IE) +
      $               HC*AREA(IA,1,IFACE,IE)/BM1(IX,IY,IZ,IE)
-  102          CONTINUE
-  101          CONTINUE
   100          CONTINUE
             ENDIF
- 1001    CONTINUE
  1000    CONTINUE
       ENDIF
       IF (ITYPE.EQ.1) THEN
@@ -889,7 +875,7 @@ C
 C        Add passive scalar fluxes to rhs
 C
          DO 2000 IE=1,NEL
-         DO 2001 IFACE=1,NFACES
+         DO 2000 IFACE=1,NFACES
             ieg=lglel(ie)
             CB =CBC(IFACE,IE,IFIELD)
             IF (CB.EQ.'F  ' .OR. CB.EQ.'f  ' .OR.
@@ -910,8 +896,8 @@ C IA is areal counter, assumes advancing fastest index first. (IX...IY...IZ)
                IA=0
                CALL FACIND (KX1,KX2,KY1,KY2,KZ1,KZ2,lx1,ly1,lz1,IFACE)
                DO 200 IZ=KZ1,KZ2
-               DO 201 IY=KY1,KY2
-               DO 202 IX=KX1,KX2
+               DO 200 IY=KY1,KY2
+               DO 200 IX=KX1,KX2
                   IA = IA + 1
                   TS = T(IX,IY,IZ,IE,IFIELD-1)
                   IF (CB.EQ.'f  ') THEN
@@ -934,11 +920,8 @@ C                 Add computed fluxes to boundary surfaces:
 C
                   S(IX,IY,IZ,IE) = S(IX,IY,IZ,IE)
      $                           + FLUX*AREA(IA,1,IFACE,IE)
-  202          CONTINUE
-  201          CONTINUE
   200          CONTINUE
             ENDIF
- 2001    CONTINUE
  2000    CONTINUE
       ENDIF
 C
@@ -975,64 +958,54 @@ C     Passive scalar term
 
       if (cb.eq.'t  ') then
          DO 100 IZ=KZ1,KZ2                           !  11/19/2010: The tmask() screen
-         DO 101 IY=KY1,KY2                           !  added here so users can leave
-         DO 102 IX=KX1,KX2                           !  certain points to be Neumann,
+         DO 100 IY=KY1,KY2                           !  added here so users can leave
+         DO 100 IX=KX1,KX2                           !  certain points to be Neumann,
             if (tmask(ix,iy,iz,iel,ifld1).eq.0) then !  if desired.
                if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
                CALL USERBC  (IX,IY,IZ,IFACE,IEG)
                S(IX,IY,IZ) = TEMP
             endif
-  102    CONTINUE
-  101    CONTINUE
   100    CONTINUE
          RETURN
 
       elseif (cb.eq.'o  ' .or. cb.eq.'on ') then
-         DO 1010 IZ=KZ1,KZ2                           !  11/19/2010: The tmask() screen
-         DO 1011 IY=KY1,KY2                           !  added here so users can leave
-         DO 1012 IX=KX1,KX2                           !  certain points to be Neumann,
+         DO 101 IZ=KZ1,KZ2                           !  11/19/2010: The tmask() screen
+         DO 101 IY=KY1,KY2                           !  added here so users can leave
+         DO 101 IX=KX1,KX2                           !  certain points to be Neumann,
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             S(IX,IY,IZ) = PA
- 1012    CONTINUE
- 1011    CONTINUE
- 1010    CONTINUE
+  101    CONTINUE
          RETURN
 
       ELSEIF (CB.EQ.'ms ' .OR. CB.EQ.'msi') THEN
 
          DO 200 IZ=KZ1,KZ2
-         DO 201 IY=KY1,KY2
-         DO 202 IX=KX1,KX2
+         DO 200 IY=KY1,KY2
+         DO 200 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             S(IX,IY,IZ) = SIGMA
-  202    CONTINUE
-  201    CONTINUE
   200    CONTINUE
 C
       ELSEIF (CB.EQ.'kd ') THEN
 C
          DO 300 IZ=KZ1,KZ2
-         DO 301 IY=KY1,KY2
-         DO 302 IX=KX1,KX2
+         DO 300 IY=KY1,KY2
+         DO 300 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             S(IX,IY,IZ) = TURBK
-  302    CONTINUE
-  301    CONTINUE
   300    CONTINUE
 C
       ELSEIF (CB.EQ.'ed ') THEN
 C
          DO 400 IZ=KZ1,KZ2
-         DO 401 IY=KY1,KY2
-         DO 402 IX=KX1,KX2
+         DO 400 IY=KY1,KY2
+         DO 400 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             S(IX,IY,IZ) = TURBE
-  402    CONTINUE
-  401    CONTINUE
   400    CONTINUE
 C
       ENDIF
@@ -1067,15 +1040,13 @@ C
      $    CB.EQ.'mvn') THEN
 C
          DO 100 IZ=KZ1,KZ2
-         DO 101 IY=KY1,KY2
-         DO 102 IX=KX1,KX2
+         DO 100 IY=KY1,KY2
+         DO 100 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = UX
             V2(IX,IY,IZ) = UY
             V3(IX,IY,IZ) = UZ
-  102    CONTINUE
-  101    CONTINUE
   100    CONTINUE
          RETURN
 C
@@ -1097,73 +1068,63 @@ C
       ELSEIF (CB.EQ.'vl ' .OR. CB.EQ.'wsl') THEN
 C
          DO 120 IZ=KZ1,KZ2
-         DO 121 IY=KY1,KY2
-         DO 122 IX=KX1,KX2
+         DO 120 IY=KY1,KY2
+         DO 120 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = UN
             V2(IX,IY,IZ) = U1
             V3(IX,IY,IZ) = U2
-  122    CONTINUE
-  121    CONTINUE
   120    CONTINUE
          RETURN
 C
       ELSEIF (CB.EQ.'s  ' .OR. CB.EQ.'sh ') THEN
 C
          DO 200 IZ=KZ1,KZ2
-         DO 201 IY=KY1,KY2
-         DO 202 IX=KX1,KX2
+         DO 200 IY=KY1,KY2
+         DO 200 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = TRX
             V2(IX,IY,IZ) = TRY
             V3(IX,IY,IZ) = TRZ
-  202    CONTINUE
-  201    CONTINUE
   200    CONTINUE
          RETURN
 C
       ELSEIF (CB.EQ.'sl ' .OR. CB.EQ.'shl') THEN
 C
          DO 220 IZ=KZ1,KZ2
-         DO 221 IY=KY1,KY2
-         DO 222 IX=KX1,KX2
+         DO 220 IY=KY1,KY2
+         DO 220 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = TRN
             V2(IX,IY,IZ) = TR1
             V3(IX,IY,IZ) = TR2
-  222    CONTINUE
-  221    CONTINUE
   220    CONTINUE
 C
       ELSEIF (CB.EQ.'ms ') THEN
 C
          DO 240 IZ=KZ1,KZ2
-         DO 241 IY=KY1,KY2
-         DO 242 IX=KX1,KX2
+         DO 240 IY=KY1,KY2
+         DO 240 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = -PA
             V2(IX,IY,IZ) = TR1
             V3(IX,IY,IZ) = TR2
-  242    CONTINUE
-  241    CONTINUE
   240    CONTINUE
 C
       ELSEIF (CB.EQ.'on ' .OR. CB.EQ.'o  ') THEN
 C
          DO 270 IZ=KZ1,KZ2
-         DO 271 IY=KY1,KY2
-         DO 272 IX=KX1,KX2
+         DO 270 IY=KY1,KY2
+         DO 270 IX=KX1,KX2
             if (optlevel.le.2) CALL NEKASGN (IX,IY,IZ,IEL)
             CALL USERBC  (IX,IY,IZ,IFACE,IEG)
             V1(IX,IY,IZ) = -PA
             V2(IX,IY,IZ) = 0.0
             V3(IX,IY,IZ) = 0.0
-  272    CONTINUE
-  271    CONTINUE
   270    CONTINUE
 C
       ENDIF
@@ -1272,7 +1233,7 @@ C
       NXYZ1 = lx1*ly1*lz1
 C
       DO 100 IEL=1,NELV
-      DO 101 IFC=1,NFACE
+      DO 100 IFC=1,NFACE
 C
          CB  = CBC (IFC,IEL,IFLD)
          BC1 = BC(1,IFC,IEL,IFLD)
@@ -1349,7 +1310,6 @@ C
          CALL ADD2 (BFY(1,1,1,IEL),TRY,NXYZ1)
          IF (ldim.EQ.3) CALL ADD2 (BFZ(1,1,1,IEL),TRZ,NXYZ1)
 C
-  101 CONTINUE
   100 CONTINUE
 C
       RETURN
@@ -1377,20 +1337,18 @@ C
 C
       IF (ldim.EQ.2) THEN
          DO 100 J2=JS2,JF2,JSKIP2
-         DO 101 J1=JS1,JF1,JSKIP1
+         DO 100 J1=JS1,JF1,JSKIP1
             I = I + 1
             TRX(J1,J2,1) = TR1*AREA(I,1,IFC,IEL)
             TRY(J1,J2,1) = TR2*AREA(I,1,IFC,IEL)
-  101    CONTINUE
   100    CONTINUE
       ELSE
          DO 200 J2=JS2,JF2,JSKIP2
-         DO 201 J1=JS1,JF1,JSKIP1
+         DO 200 J1=JS1,JF1,JSKIP1
             I = I + 1
             TRX(J1,J2,1) = TR1*AREA(I,1,IFC,IEL)
             TRY(J1,J2,1) = TR2*AREA(I,1,IFC,IEL)
             TRZ(J1,J2,1) = TR3*AREA(I,1,IFC,IEL)
-  201    CONTINUE
   200    CONTINUE
       ENDIF
 C
@@ -1442,11 +1400,10 @@ C
       I = 0
 C
       DO 200 J2=JS2,JF2,JSKIP2
-      DO 201 J1=JS1,JF1,JSKIP1
+      DO 200 J1=JS1,JF1,JSKIP1
          I = I + 1
          TRX(J1,J2,1) = TRX(J1,J2,1) - A1X(I)
          TRY(J1,J2,1) = TRY(J1,J2,1) - A1Y(I)
-  201 CONTINUE
   200 CONTINUE
 C
 C     Contact angle corrections
@@ -1563,11 +1520,10 @@ C
       I = 0
 C
       DO 300 J2=JS2,JF2,JSKIP2
-      DO 301 J1=JS1,JF1,JSKIP1
+      DO 300 J1=JS1,JF1,JSKIP1
          I  = I + 1
          TRX(J1,J2,1) = TRX(J1,J2,1) - A2X(I) - A1X(I)
          TRY(J1,J2,1) = TRY(J1,J2,1) - A2Y(I) - A1Y(I)
-  301 CONTINUE
   300 CONTINUE
 C
 C     Contact angle corrections
@@ -1684,7 +1640,7 @@ C
       CALL MXM (ZFM1,lx1,DSTM1,ly1,ZSM1,ly1)
 C
       DO 100 IX=1,lx1
-      DO 101 IY=1,ly1
+      DO 100 IY=1,ly1
          GB1X=XRM1(IX,IY)
          GB1Y=YRM1(IX,IY)
          GB1Z=ZRM1(IX,IY)
@@ -1710,7 +1666,6 @@ C
          G2X(IX,IY) = BB * ( GT12*GB1X + GT22*GB2X )
          G2Y(IX,IY) = BB * ( GT12*GB1Y + GT22*GB2Y )
          G2Z(IX,IY) = BB * ( GT12*GB1Z + GT22*GB2Z )
-  101    CONTINUE
   100    CONTINUE
 C
       CALL MXM (DRTM1,lx1,G1X,lx1,S1X,ly1)
@@ -1807,7 +1762,7 @@ C
 C
       IF (ldim.EQ.2) THEN
          DO 200 J2=JS2,JF2,JSKIP2
-         DO 201 J1=JS1,JF1,JSKIP1
+         DO 200 J1=JS1,JF1,JSKIP1
             I = I+1
             RNORL = R1(J1,J2,1)
             RTAN1 = R2(J1,J2,1)
@@ -1815,11 +1770,10 @@ C
      $                    RTAN1*T1X(I,1,IFC,IEL)
             R2(J1,J2,1) = RNORL*UNY(I,1,IFC,IEL) +
      $                    RTAN1*T1Y(I,1,IFC,IEL)
-  201    CONTINUE
   200    CONTINUE
       ELSE
          DO 300 J2=JS2,JF2,JSKIP2
-         DO 301 J1=JS1,JF1,JSKIP1
+         DO 300 J1=JS1,JF1,JSKIP1
             I = I+1
             RNORL = R1(J1,J2,1)    
             RTAN1 = R2(J1,J2,1)    
@@ -1833,7 +1787,6 @@ C
             R3(J1,J2,1) = RNORL*UNZ(I,1,IFC,IEL) +
      $                    RTAN1*T1Z(I,1,IFC,IEL) +
      $                    RTAN2*T2Z(I,1,IFC,IEL)
-  301       CONTINUE
   300       CONTINUE
          ENDIF
 C
@@ -1954,7 +1907,7 @@ C
       IF (IF3D) CALL RZERO (TMP3,NTOT1)
 C
       DO 2000 IEL=1,NELV
-      DO 2001 IFC=1,NFACE
+      DO 2000 IFC=1,NFACE
          CB  = CBC (IFC,IEL,IFIELD)
          BC1 = BC(1,IFC,IEL,IFIELD)
          BC2 = BC(2,IFC,IEL,IFIELD)
@@ -1977,7 +1930,6 @@ C
      $       CALL GLOBROT (TMP1(1,1,1,IEL),TMP2(1,1,1,IEL),
      $                     TMP3(1,1,1,IEL),IEL,IFC)
          ENDIF
- 2001 CONTINUE
  2000 CONTINUE
 C
       RETURN
@@ -2093,25 +2045,22 @@ c
       termVL= 0.0
 
       do 100 iel=1,nelv
-      do 101 iface=1,nfaces
+      do 100 iface=1,nfaces
          cb = cbc(iface,iel,1)
          if (cb.eq.'v  ' .or. cb.eq.'V  ' .or. cb.eq.'mv ') then
             call facind(kx1,kx2,ky1,ky2,kz1,kz2,lx1,ly1,lz1,iface)
             ia = 0
             do 10 iz=kz1,kz2
-            do 11 iy=ky1,ky2
-            do 12 ix=kx1,kx2
+            do 10 iy=ky1,ky2
+            do 10 ix=kx1,kx2
                ia =ia + 1
                termxyz = tx(ix,iy,iz,iel)*unx(ia,1,iface,iel)
      $                 + ty(ix,iy,iz,iel)*uny(ia,1,iface,iel)
      $                 + tz(ix,iy,iz,iel)*unz(ia,1,iface,iel)
                termA  = termA + area(ia,1,iface,iel)
                termVL = termVL+ termxyz * area(ia,1,iface,iel)
- 12         continue
- 11         continue
  10         continue
          endif
- 101  continue
  100  continue
 
       glcflux = glsum(termVL,1)  ! sum across processors
@@ -2139,25 +2088,22 @@ c
       call rzero(flux,ntot)
 
       do 100 iel=1,nel
-      do 101 iface=1,nfaces
+      do 100 iface=1,nfaces
          cb = cbc(iface,iel,ifld)
          if (cb.ne.'E  ') then
             call facind(kx1,kx2,ky1,ky2,kz1,kz2,lx1,ly1,lz1,iface)
             ia = 0
             do 10 iz=kz1,kz2
-            do 11 iy=ky1,ky2
-            do 12 ix=kx1,kx2
+            do 10 iy=ky1,ky2
+            do 10 ix=kx1,kx2
                ia =ia + 1
                dtmp =   tx(ix,iy,iz,iel)*unx(ia,1,iface,iel)
      $                + ty(ix,iy,iz,iel)*uny(ia,1,iface,iel)
      $                + tz(ix,iy,iz,iel)*unz(ia,1,iface,iel)
                flux(ix,iy,iz,iel) = flux(ix,iy,iz,iel)
      $                              + dtmp*area(ia,1,iface,iel)
- 12         continue
- 11         continue
  10         continue
          endif
- 101  continue
  100  continue
 
       return

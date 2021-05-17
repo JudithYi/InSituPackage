@@ -333,8 +333,8 @@ if [ $CATALYST -ne 0 ]; then
    echo "Activate ParaView Catalyst instrumentation"
 
   sed -e "s/^CATALYST[ ]*=.*/CATALYST:=${CATALYST}/" \
-      -e "s:^CATALYST_IFLAGS[ ]*=.*:CATALYST_IFLAGS\:=${CATALYST_INCS}:" \
-      -e "s:^CATALYST_LFLAGS[ ]*=.*:CATALYST_LFLAGS\:=${CATALYST_LIBS} -lstdc++:" \
+      -e "s|^CATALYST_IFLAGS[ ]*=.*|CATALYST_IFLAGS:=${CATALYST_INCS}|" \
+      -e "s|^CATALYST_LFLAGS[ ]*=.*|CATALYST_LFLAGS:=${CATALYST_LIBS} -lstdc++|" \
       -e "s/^PPS[ ]*=.*/PPS=${PPLIST} CATALYST/" \
       .makefile > .makefile.tmp	
 
