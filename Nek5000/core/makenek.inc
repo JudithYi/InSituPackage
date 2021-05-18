@@ -295,6 +295,7 @@ sed -e "s:^FC[ ]*=.*:FC\:=$FC:" \
 -e "s/^NEKNEK[ ]*=.*/NEKNEK:=$NEKNEK/" \
 -e "s/^VISIT[ ]*=.*/VISIT:=${VISIT}/" \
 -e "s/^CATALYST[ ]*=.*/CATALYST:=${CATALYST}/" \
+-e "s/^ADIOS2[ ]*=.*/ADIOS2:=${ADIOS2}/" \
 -e "s:^USR[ ]*=.*:USR\:=$USR:" \
 -e "s:^USR_LFLAGS[ ]*=.*:USR_LFLAGS\:=$USR_LFLAGS:" \
 -e "s:^S[ ]*=.*:S\:=${SOURCE_ROOT}/core:" \
@@ -336,6 +337,20 @@ if [ $CATALYST -ne 0 ]; then
       -e "s|^CATALYST_IFLAGS[ ]*=.*|CATALYST_IFLAGS:=${CATALYST_INCS}|" \
       -e "s|^CATALYST_LFLAGS[ ]*=.*|CATALYST_LFLAGS:=${CATALYST_LIBS} -lstdc++|" \
       -e "s/^PPS[ ]*=.*/PPS=${PPLIST} CATALYST/" \
+      .makefile > .makefile.tmp	
+
+  mv .makefile.tmp .makefile
+  echo ""
+fi
+
+if [ $ADIOS2 -ne 0 ]; then
+   echo ""
+   echo "Activate ADIOS2 instrumentation"
+
+  sed -e "s/^ADIOS2[ ]*=.*/ADIOS2:=${ADIOS2}/" \
+      -e "s|^ADIOS2_IFLAGS[ ]*=.*|ADIOS2_IFLAGS:=${ADIOS2_INCS}|" \
+      -e "s|^ADIOS2_LFLAGS[ ]*=.*|ADIOS2_LFLAGS:=${ADIOS2_LIBS} -lstdc++|" \
+      -e "s/^PPS[ ]*=.*/PPS=${PPLIST} ADIOS2/" \
       .makefile > .makefile.tmp	
 
   mv .makefile.tmp .makefile

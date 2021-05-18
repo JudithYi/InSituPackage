@@ -24,6 +24,9 @@ VISIT_LFLAGS=
 CATALYST=0
 CATALYST_LFLAGS=
 CATALYST_IFLAGS=
+ADIOS2=0
+ADIOS2_LFLAGS=
+ADIOS2_IFLAGS=
 
 ################################################################################
 
@@ -88,13 +91,19 @@ ifneq ($(CATALYST),0)
   USR_LFLAGS := ${USR_LFLAGS} $(CATALYST_LFLAGS)
 endif
 
+# ADIOS2 #####################################################################
+ifneq ($(ADIOS2),0)
+  ADIOS2O := adios2.o nek_adios2.o
+  USR_LFLAGS := ${USR_LFLAGS} $(ADIOS2_LFLAGS)
+endif
+
 ifeq ($(MPI),0)
 	DUMMY:= $(shell cp $S/mpi_dummy.h $S/mpif.h) 
 else
 	DUMMY:= $(shell rm -rf $S/mpif.h) 
 endif
 
-TMP1 = $(CORE) $(MXM) $(USR) $(COMM_MPI) $(NEKNEKO) $(VISITO) $(CATALYSTO) $(BLAS)
+TMP1 = $(CORE) $(MXM) $(USR) $(COMM_MPI) $(NEKNEKO) $(VISITO) $(CATALYSTO) $(ADIOS2O) $(BLAS)
 
 ifeq ($(CMT),1)
 TMP1 += $(CMTCORE)
@@ -260,6 +269,8 @@ $(OBJDIR)/blas.o   	:$S/3rd_party/blas.f;		$(FC) -c $(L0) $(PPS_F) $< -o $@
 $(OBJDIR)/visit.o        :$S/3rd_party/visit.f;		$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
 $(OBJDIR)/catalyst.o     :$S/3rd_party/catalyst.f;	$(FC) -c $(FL2) $< -o $@
 $(OBJDIR)/nek_catalyst.o :$S/3rd_party/nek_catalyst.cxx;$(CXX)  -c $(cFL2) $(CATALYST_IFLAGS) $< -o $@
+$(OBJDIR)/adios2.o     :$S/3rd_party/adios2.f;	$(FC) -c $(FL2) $< -o $@
+$(OBJDIR)/nek_adios2.o :$S/3rd_party/nek_adios2.cpp;$(CXX)  -c $(cFL2) $(ADIOS2_IFLAGS) $< -o $@
 $(OBJDIR)/nek_in_situ.o  :$S/3rd_party/nek_in_situ.f;	$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
 $(OBJDIR)/finiparser.o   :$S/3rd_party/finiparser.c;    $(CC)  -c $(cFL2) $(JL) $< -o $@
 $(OBJDIR)/iniparser.o    :$S/3rd_party/iniparser.c;     $(CC)  -c $(cFL2) $(JL) $< -o $@

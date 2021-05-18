@@ -60,6 +60,10 @@ CATALYST=1
 CATALYST_LIBS=`paraview-config -c PythonCatalyst -l`
 CATALYST_INCS=`paraview-config -c PythonCatalyst -f`
 
+ADIOS2=1
+ADIOS2_INCS=`adios2-config --cxxflags`
+ADIOS2_LIBS=`adios2-config --cxxlibs`
+
 ###############################################################################
 # DONT'T TOUCH WHAT FOLLOWS !!!
 ###############################################################################

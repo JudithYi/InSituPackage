@@ -16,6 +16,9 @@ export LD_LIBRARY_PATH=$PARAVIEW/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$PARAVIEW/lib/python3.6/site-packages:$PYTHONPATH
 export PYTHONPATH=$PARAVIEW/lib/python3.6/site-packages/paraview/:$PYTHONPATH
 
+export ADIOS2_DIR=/usr/local/lib/cmake/adios2
+export PATH=$ADIOS2_DIR/bin:$PATH
+
 ./makenek small_wing
 
 mkdir perf
